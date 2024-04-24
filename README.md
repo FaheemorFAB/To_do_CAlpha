@@ -52,6 +52,6 @@ To-Do List Application
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is Open Source, licensed under the MIT License. 
 
 Feel free to use and customize it as needed! 🎉

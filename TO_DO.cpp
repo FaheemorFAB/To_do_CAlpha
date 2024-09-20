@@ -6,6 +6,9 @@
 #include <ctime>     // For system date and time
 #include <iomanip>   // For date formatting
 #include <limits>    // For std::numeric_limits
+#include <sstream>   // Allows reading formatted input from strings like keyboard input
+
+using namespace std;
 
 class Task
 {

@@ -167,6 +167,7 @@ int main()
             cout << "Enter due date (format: dd/mm/yyyy): ";
             getline(cin, dueDate);
             myList.addTask(input, priority, dueDate);
+            }
             break;
         case 2:
             if(!myList.showTasks())

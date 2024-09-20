@@ -67,12 +67,12 @@ public:
         }
     }
 
-    void showTasks() const
+    bool showTasks() const
     {
         if (tasks.empty())
         {
-            std::cout << "No tasks to display." << std::endl;
-            return;
+            cout << "No tasks to display." << endl;
+            return false;
         }
         for (size_t i = 0; i < tasks.size(); ++i)
         {
@@ -81,6 +81,7 @@ public:
                       << " [Due Date: " << tasks[i].dueDate << "]"
                       << (tasks[i].completed ? " (completed)" : "") << endl;
         }
+        return true;
     }
 
     void sortByPriority()

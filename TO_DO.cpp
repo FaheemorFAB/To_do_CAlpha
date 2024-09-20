@@ -28,16 +28,20 @@ private:
     vector<Task> tasks;
 
 public:
-    void addTask(const std::string &task, const std::string &priority, const std::string &dueDate)
+    bool addTask(const string &task, const string &priority, const string &dueDate)
     {
         // Validate due date format and compare with system date
         if (isValidDueDate(dueDate))
         {
             tasks.emplace_back(task, priority, dueDate);
+            cout<<endl<<"Task Added Successfully"<<endl;
+            return true;
         }
         else
         {
-            std::cout << "Invalid due date. Please enter a valid due date (format: dd/mm/yyyy)." << std::endl;
+            cerr << "Invalid due date. Please enter a valid due date (format: dd/mm/yyyy)." <<endl;
+            return false;
+
         }
     }
 

@@ -110,18 +110,24 @@ public:
     }
 
 private:
-    bool isValidDueDate(const std::string &dueDate) const
+    bool isValidDueDate(const string &dueDate)
+{
+    tm dueDateTm = {};
+    istringstream ss(dueDate);
+    
+    // Attempt to parse the due date string
+    ss >> get_time(&dueDateTm, "%d/%m/%Y");
+    if (ss.fail())
     {
-        std::tm dueDateTm;
-        // Attempt to parse the due date string
-        if (strptime(dueDate.c_str(), "%d/%m/%Y", &dueDateTm) == nullptr)
-        {
-            return false; // Invalid format
-        }
-        std::time_t sysTime_t = std::time(nullptr); // Get current system time
-        std::time_t dueDate_t = std::mktime(&dueDateTm);
-        return dueDate_t >= sysTime_t; // Due date should be equal to or after system date
+        return false; // Invalid format
     }
+
+    time_t sysTime_t = time(nullptr); // Get current system time
+    time_t dueDate_t = mktime(&dueDateTm); // Convert tm structure to time_t
+    
+    return dueDate_t >= sysTime_t; // Due date should be equal to or after system date
+}
+
 };
 
 int main()

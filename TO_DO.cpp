@@ -13,19 +13,19 @@ using namespace std;
 class Task
 {
 public:
-    std::string description;
+    string description;
     bool completed;
-    std::string priority; // Priority level of the task
-    std::string dueDate;  // Due date of the task (format: dd/mm/yyyy)
+    string priority; // Priority level of the task
+    string dueDate;  // Due date of the task (format: dd/mm/yyyy)
 
-    Task(const std::string &desc, const std::string &prio, const std::string &date)
+    Task(const string &desc, const string &prio, const string &date)
         : description(desc), completed(false), priority(prio), dueDate(date) {}
 };
 
 class ToDoList
 {
 private:
-    std::vector<Task> tasks;
+    vector<Task> tasks;
 
 public:
     void addTask(const std::string &task, const std::string &priority, const std::string &dueDate)
@@ -52,13 +52,13 @@ public:
             }
             else
             {
-                std::cout << "Task already completed." << std::endl;
+                cout << "Task already completed." << endl;
                 return false;
             }
         }
         else
         {
-            std::cout << "Invalid task number." << std::endl;
+            cout << "Invalid task number." << endl;
             return false;
         }
     }
@@ -72,35 +72,35 @@ public:
         }
         for (size_t i = 0; i < tasks.size(); ++i)
         {
-            std::cout << i + 1 << ". " << tasks[i].description
+            cout << i + 1 << ". " << tasks[i].description
                       << " [Priority: " << tasks[i].priority << "]"
                       << " [Due Date: " << tasks[i].dueDate << "]"
-                      << (tasks[i].completed ? " (completed)" : "") << std::endl;
+                      << (tasks[i].completed ? " (completed)" : "") << endl;
         }
     }
 
     void sortByPriority()
     {
-        std::sort(tasks.begin(), tasks.end(), [](const Task &a, const Task &b)
+        sort(tasks.begin(), tasks.end(), [](const Task &a, const Task &b)
                   {
             // Assuming priority levels are strings like "high", "medium", "low"
             return a.priority < b.priority; });
     }
 
-    bool saveTasksToFile(const std::string &filename)
+    bool saveTasksToFile(const string &filename)
     {
-        std::ofstream file(filename);
+        ofstream file(filename);
         if (!file.is_open())
         {
-            std::cout << "Error: Unable to open file for writing." << std::endl;
+            cerr << "Error: Unable to open file for writing." << endl;
             return false;
         }
         for (const Task &task : tasks)
         {
-            file << task.description << "," << task.priority << "," << task.dueDate << "," << task.completed << std::endl;
+            file << task.description << "," << task.priority << "," << task.dueDate << "," << task.completed << endl;
         }
         file.close();
-        std::cout << "Tasks saved to file: " << filename << std::endl;
+        cout << "Tasks saved to file: " << filename << endl;
         return true;
     }
 
@@ -122,47 +122,55 @@ private:
 int main()
 {
     ToDoList myList;
-    std::string input, priority, dueDate;
+    string input, priority, dueDate;
     int choice, taskNumber;
-    std::string filename; // Declare filename variable here
+    string filename; // Declare filename variable here
 
     while (true)
     {
-        std::cout << "\nTo-Do List Application\n";
-        std::cout << "1. Add Task\n";
-        std::cout << "2. Complete Task\n";
-        std::cout << "3. Show Tasks\n";
-        std::cout << "4. Sort Tasks by Priority\n";
-        std::cout << "5. Save Tasks to File\n";
-        std::cout << "6. Exit\n";
-        std::cout << "Enter your choice: ";
-        std::cin >> choice;
+        cout<<endl<<"-----------------------"<<endl;
+        cout << "\nTo-Do List Application\n";
+        cout << "1. Add Task\n";
+        cout << "2. Complete Task\n";
+        cout << "3. Show Tasks\n";
+        cout << "4. Sort Tasks by Priority\n";
+        cout << "5. Save Tasks to File\n";
+        cout << "6. Exit\n";
+        cout <<endl<< "Enter your choice: ";
+        cin >> choice;
+        cout<<endl<<"-----------------------"<<endl;
 
         switch (choice)
         {
         case 1:
-            std::cout << "Enter task description: ";
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            std::getline(std::cin, input);
-            std::cout << "Enter priority level (e.g., high, medium, low): ";
-            std::getline(std::cin, priority);
-            std::cout << "Enter due date (format: dd/mm/yyyy): ";
-            std::getline(std::cin, dueDate);
+            cout << "Enter task description: ";
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            getline(cin, input);
+            cout << "Enter priority level (e.g., high, medium, low): ";
+            getline(cin, priority);
+            cout << "Enter due date (format: dd/mm/yyyy): ";
+            getline(cin, dueDate);
+
+            if(!myList.addTask(input, priority, dueDate))
+            {
+            cout << "Enter due date (format: dd/mm/yyyy): ";
+            getline(cin, dueDate);
             myList.addTask(input, priority, dueDate);
             break;
         case 2:
-            myList.showTasks();
-            std::cout << "Enter task number to complete: ";
-            if (!(std::cin >> taskNumber))
+            if(!myList.showTasks())
+            break;
+            cout << "Enter task number to complete: ";
+            if (!(cin >> taskNumber))
             {
-                std::cout << "Invalid input. Please enter a valid number." << std::endl;
-                std::cin.clear();
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                cout << "Invalid input. Please enter a valid number." << endl;
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 break;
             }
             if (myList.completeTask(taskNumber - 1))
             {
-                std::cout << "Task marked as completed." << std::endl;
+                cout << "Task marked as completed." << endl;
             }
             break;
         case 3:
@@ -170,26 +178,26 @@ int main()
             break;
         case 4:
             myList.sortByPriority();
-            std::cout << "Tasks sorted by priority." << std::endl;
+            cout << "Tasks sorted by priority." << endl;
             break;
         case 5:
-            std::cout << "Enter filename to save tasks: ";
-            std::cin >> filename;
+            cout << "Enter filename to save tasks: ";
+            cin >> filename;
             if (myList.saveTasksToFile(filename))
             {
-                std::cout << "Tasks saved successfully." << std::endl;
+                cout << "Tasks saved successfully." << endl;
             }
             else
             {
-                std::cout << "Failed to save tasks." << std::endl;
+                cout << "Failed to save tasks." << endl;
             }
             break;
         case 6:
             return 0;
         default:
-            std::cout << "Invalid choice. Please try again." << std::endl;
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            cout << "Invalid choice. Please try again." << endl;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
         }
     }
 
